@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Offer Course</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9ff;
+            padding: 40px;
+            color: #333;
+        }
+
+        h2 {
+            color: #4a4a8a;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #4a4a8a;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #3a3a75;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #4a4a8a;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h2>Offer a New Course</h2>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Course Name" required>
+        <input type="text" name="code" placeholder="Course Code" required>
+        <button type="submit">Offer Course</button>
+    </form>
+
+    <a href="{% url 'faculty_dashboard' %}">← Back to Dashboard</a>
+
+</body>
+</html>

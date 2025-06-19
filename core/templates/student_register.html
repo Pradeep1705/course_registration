@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register for Courses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9ff;
+            padding: 40px;
+            color: #333;
+        }
+
+        h2 {
+            color: #4a4a8a;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #4a4a8a;
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #3a3a75;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #4a4a8a;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Register for a Course</h2>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if courses %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Code</th>
+                    <th>Faculty</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                    <tr>
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.code }}</td>
+                        <td>{{ course.faculty.get_full_name|default:course.faculty.username }}</td>
+                        <td>
+                            <form method="post" style="margin: 0;">
+                                {% csrf_token %}
+                                <input type="hidden" name="course_id" value="{{ course.id }}">
+                                <button type="submit">Register</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No available courses to register.</p>
+    {% endif %}
+
+    <a href="{% url 'student_dashboard' %}">← Back to Dashboard</a>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9ff;
+            padding: 40px;
+            color: #333;
+        }
+
+        h2 {
+            color: #4a4a8a;
+        }
+
+        a {
+            display: inline-block;
+            margin: 10px 0 20px 0;
+            color: #4a4a8a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Welcome, {{ user.username }}!</h2>
+
+    {% if user.role == 'student' %}
+        <a href="{% url 'register_course' %}">➕ Register for Courses</a>
+        <h3>Your Registered Courses:</h3>
+        {% if registrations %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Name</th>
+                        <th>Faculty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reg in registrations %}
+                        <tr>
+                            <td>{{ reg.course.code }}</td>
+                            <td>{{ reg.course.name }}</td>
+                            <td>{{ reg.course.faculty.get_full_name|default:reg.course.faculty.username }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No registered courses yet.</p>
+        {% endif %}
+
+    {% elif user.role == 'faculty' %}
+        <a href="{% url 'offer_course' %}">➕ Offer a New Course</a>
+        <h3>Courses You're Offering:</h3>
+        {% if courses %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Name</th>
+                        <th>Registered Students</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                        <tr>
+                            <td>{{ course.code }}</td>
+                            <td>{{ course.name }}</td>
+                            <td>{{ course.count }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You have not offered any courses yet.</p>
+        {% endif %}
+    {% endif %}
+
+    <a href="{% url 'logout' %}">🚪 Logout</a>
+
+</body>
+</html>
