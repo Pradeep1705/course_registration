@@ -61,6 +61,20 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+6. db export
+```bash
+pg_dump -U postgres -d coursedb -f "D:\course_reg_assignment\course_reg\coursedb.sql
+```
+
+7. create exported db
+```bash
+createdb -U postgres coursedb
+```
+
+8. Restore db
+```bash
+psql -U postgres -d coursedb -f coursedb.sql
+```
 
 
 
